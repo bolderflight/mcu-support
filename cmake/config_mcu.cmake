@@ -1,7 +1,7 @@
 # macro that sets up definitions, compile options, and link options depending on MCU
-macro (configMcu MCU)
+macro (configMcu MCU BASE_DIR)
   # Add math libraries
-  link_directories(${CMAKE_SOURCE_DIR}/lib)
+  link_directories(${BASE_DIR}/lib)
   # MCU specific config
   if (MCU STREQUAL "MK20DX128")
     message("Configuring MK20DX128 build.")
@@ -35,7 +35,7 @@ macro (configMcu MCU)
       -mcpu=cortex-m4 
     )
     # Linker script
-    set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/ld/mk20dx128.ld")
+    set(LINKER_SCRIPT "${BASE_DIR}/ld/mk20dx128.ld")
     # Link options
     add_link_options(
       -Os 
@@ -84,7 +84,7 @@ macro (configMcu MCU)
       -mcpu=cortex-m4 
     )
     # Linker script
-    set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/ld/mk20dx256.ld")
+    set(LINKER_SCRIPT "${BASE_DIR}/ld/mk20dx256.ld")
     # Link options
     add_link_options(
       -Os 
@@ -135,7 +135,7 @@ macro (configMcu MCU)
       -mfpu=fpv4-sp-d16
     )
     # Linker script
-    set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/ld/mk64fx512.ld")
+    set(LINKER_SCRIPT "${BASE_DIR}/ld/mk64fx512.ld")
     # Link options
     add_link_options(
       -Os 
@@ -188,7 +188,7 @@ macro (configMcu MCU)
       -mfpu=fpv4-sp-d16
     )
     # Linker script
-    set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/ld/mk66fx1m0.ld")
+    set(LINKER_SCRIPT "${BASE_DIR}/ld/mk66fx1m0.ld")
     # Link options
     add_link_options(
       -Os 
@@ -239,7 +239,7 @@ macro (configMcu MCU)
       -mcpu=cortex-m0plus
     )
     # Linker script
-    set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/ld/mkl26z64.ld")
+    set(LINKER_SCRIPT "${BASE_DIR}/ld/mkl26z64.ld")
     # Link options
     add_link_options(
       -Os 
@@ -291,7 +291,7 @@ macro (configMcu MCU)
       -mfpu=fpv5-d16
     )
     # Linker script
-    set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/ld/imxrt1062.ld")
+    set(LINKER_SCRIPT "${BASE_DIR}/ld/imxrt1062.ld")
     # Link options
     add_link_options(
       -Os 
@@ -345,7 +345,7 @@ macro (configMcu MCU)
       -mfpu=fpv5-d16
     )
     # Linker script
-    set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/ld/imxrt1062_t41.ld")
+    set(LINKER_SCRIPT "${BASE_DIR}/ld/imxrt1062_t41.ld")
     # Link options
     add_link_options(
       -Os 

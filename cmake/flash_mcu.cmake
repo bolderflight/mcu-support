@@ -1,5 +1,5 @@
 # macro that flashes a target MCU
-function (flashMcu TARGET MCU)
+function (flashMcu TARGET MCU BASE_DIR)
   string(APPEND HEX_TARGET ${TARGET} _hex)
   string(APPEND HEX_CMD ${TARGET} .hex)
   string(APPEND UPLOAD_TARGET ${TARGET} _upload)
@@ -20,12 +20,12 @@ function (flashMcu TARGET MCU)
   string(FIND ${linux_version_lower} "microsoft" wsl)
   if (wsl GREATER -1)
     add_custom_target(${UPLOAD_TARGET}
-      COMMAND ${CMAKE_SOURCE_DIR}/tools/teensy_loader_cli.exe ${MCU_CMD} -w ${HEX_CMD} -v
+      COMMAND ${BASE_DIR}/tools/teensy_loader_cli.exe ${MCU_CMD} -w ${HEX_CMD} -v
       DEPENDS ${HEX_CMD}
     )
   else (wsl GREATER -1)
     add_custom_target(${UPLOAD_TARGET}
-      COMMAND ${CMAKE_SOURCE_DIR}/tools/teensy_loader_cli ${MCU_CMD} -s ${HEX_CMD} -v
+      COMMAND ${BASE_DIR}/tools/teensy_loader_cli ${MCU_CMD} -s ${HEX_CMD} -v
       DEPENDS ${HEX_CMD}
     )
   endif (wsl GREATER -1)
