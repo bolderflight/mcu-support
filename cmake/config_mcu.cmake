@@ -364,7 +364,61 @@ macro (configMcu MCU BASE_DIR)
       -lc
       -lstdc++
     )
+    elseif (MCU STREQUAL "IMXRT1062_MMOD")
+    message("Configuring IMXRT1062 MMOD build.")
+    # Setup def for the loader
+    set(MCU_LOAD imxrt1062)
+    # Definitions
+    add_definitions(
+      -D__MCU__
+      -D__IMXRT1062__
+      -DF_CPU=528000000 
+      -DUSB_SERIAL
+      -DTEENSYDUINO=153
+      -DARDUINO_TEENSY_MICROMOD
+    )
+    # Compile options
+    add_compile_options(
+      $<$<COMPILE_LANGUAGE:C>:-std=gnu11>
+      $<$<COMPILE_LANGUAGE:CXX>:-std=c++14>
+      $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
+      $<$<COMPILE_LANGUAGE:CXX>:-felide-constructors>
+      $<$<COMPILE_LANGUAGE:CXX>:-Wno-error=narrowing>
+      $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
+      $<$<COMPILE_LANGUAGE:CXX>:-Wno-volatile>
+      -g 
+      -Os 
+      -Wno-psabi 
+      -mthumb 
+      -ffunction-sections 
+      -fdata-sections 
+      -nostdlib 
+      -MMD
+      -mcpu=cortex-m7
+      -mfloat-abi=hard 
+      -mfpu=fpv5-d16
+    )
+    # Linker script
+    set(LINKER_SCRIPT "${BASE_DIR}/ld/imxrt1062_mm.ld")
+    # Link options
+    add_link_options(
+      -Os 
+      --specs=nano.specs
+      LINKER:--defsym=__rtc_localtime=0
+      -Wl,--gc-sections,--relax
+      -mcpu=cortex-m7 
+      -mfloat-abi=hard 
+      -mfpu=fpv5-d16
+      -T${LINKER_SCRIPT}
+    )
+    # Link libraries
+    link_libraries(
+      -larm_cortexM7lfsp_math
+      -lm 
+      -lc
+      -lstdc++
+    )
   else ()
-    message(FATAL_ERROR "ERROR: Unknown MCU selected. Available MCUs are: MK20DX128, MK20DX256, MK64FX512, MK66FX1M0, and MKL26Z64. Use -DMCU to specify the target.")
+    message(FATAL_ERROR "ERROR: Unknown MCU selected. Available MCUs are: MK20DX128, MK20DX256, MK64FX512, MK66FX1M0, MKL26Z64, IMXRT1062_T40, IMXRT1062_T41, and IMXRT1062_MMOD. Use -DMCU to specify the target.")
   endif ()
 endmacro ()
